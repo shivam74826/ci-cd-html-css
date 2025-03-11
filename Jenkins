@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+    stages {
+        stage('Clone Repository') {
+            steps {
+                // Clone the repository
+                git 'https://github.com/shivam74826/ci-cd-html-css'
+            }
+        }
+        stage('Deploy to Web Server') {
+            steps {
+                script {
+                    // Deploying static files to the web server (like nginx or any static file host)
+                    sh '''
+                    # Assume you have an HTTP server to serve the HTML files, 
+                    # here we can use a simple mock deployment for the static site.
+                    echo "Deploying to server..."
+
+                    # Example: Copy to a public folder or any server directory
+                    cp -r * /var/www/html/
+
+                    # Optional: Restart web server if necessary
+                    # sudo systemctl restart nginx
+                    '''
+                }
+            }
+        }
+    }
+    post {
+        always {
+            // Clean workspace after each run
+            cleanWs()
+        }
+    }
+}
